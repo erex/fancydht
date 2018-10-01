@@ -26,9 +26,9 @@ fancydht <- function(model, flatfile, formula, geo=FALSE, convert.units=1){
   # extract the flatfile data
 ## TODO
   #flatfile <- ddf$data
-  # truncate
-  flatfile <- flatfile[flatfile$distance<=ddf$meta.data$width, ]
-  flatfile <- flatfile[flatfile$distance>=ddf$meta.data$left, ]
+  ### truncate
+  ##flatfile <- flatfile[flatfile$distance<=ddf$meta.data$width, ]
+  ##flatfile <- flatfile[flatfile$distance>=ddf$meta.data$left, ]
 
   ## checks
   # is the term in the data.frame?
@@ -79,10 +79,11 @@ fancydht <- function(model, flatfile, formula, geo=FALSE, convert.units=1){
     # smoosh
     flatfile <- rbind(flatfile, dummy_dat)
     # get rid of duplicates
-    ff <- ddply(flatfile, .(Sample.Label), function(x){
+    ff <- ddply(flatfile, .(Sample.Label, Region.Label), function(x){
                 xx <- x[!is.na(x$distance),]
                 if(nrow(xx)>0) return(xx)
                 return(unique(x[is.na(x$distance),]))})
+#ff<-flatfile
   }
 
   ## unflatten the file
@@ -90,7 +91,6 @@ fancydht <- function(model, flatfile, formula, geo=FALSE, convert.units=1){
   sample.table <- anti_ikea$sample.table
   region.table <- anti_ikea$region.table
   obs.table <- anti_ikea$obs.table
-
 
   # estimate abundance
   dhat <- dht(ddf, region.table, sample.table, obs.table,
