@@ -83,7 +83,6 @@ fancydht <- function(model, flatfile, formula, geo=FALSE, convert.units=1){
                 xx <- x[!is.na(x$distance),]
                 if(nrow(xx)>0) return(xx)
                 return(unique(x[is.na(x$distance),]))})
-#ff<-flatfile
   }
 
   ## unflatten the file
